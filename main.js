@@ -1,8 +1,14 @@
 const p = require("prompt-sync")();
 let choice ;
+let candidates = [];
+let candidate = {}
+
+
+
 
 
 function menu(){
+
   console.log("\n ==========  System Elections and Electoral Lists  ==========\n")  
   console.log("\t1. Add the candidates ")
   console.log("\t2. Display the candidates")
@@ -16,6 +22,33 @@ function menu(){
 
 }
 
+function addCandidate(){
+
+    let count = Number(p("How much candidate do you want to add : "));
+    for(let i = 0 ; i < count ;i++){
+          console.log(`\n------- Enter Candidate : ${i+1} --------\n`);
+          let id = Number(p("Enter ID : "));
+          let cin = p("Enter CIN : ");
+          let name = p("Enter Name : ");
+          let lastName = p("Enter LastName : ");
+          let age = Number(p("Enter Age : "));
+          let politicalParty  = p("Enter political party : ");
+          let voters = [];
+          candidates.push( candidate = {
+             id : id ,
+             cin : cin ,
+             name : name ,
+             lastName : lastName,
+             age : age ,
+             politicalParty : politicalParty,
+             voters : voters
+
+          })
+          console.log("\n --------------------------------\n")
+    }
+
+}
+
 do{
 
 menu();
@@ -23,10 +56,12 @@ choice = Number(p("Choose a number : "));
 
   switch(choice){
 
-    case 1 : p("Click to move...!");
+    case 1 : addCandidate();
+             p("Click to move...!");
              console.clear();
              break;
-    case 2 : p("Click to move...!");
+    case 2 : 
+             p("Click to move...!");
              console.clear();
              break ;
     case 3 : p("Click to move...!");
