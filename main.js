@@ -48,12 +48,6 @@ function addCandidate(){
 
 }
 
-// 3. Afficher la liste des candidats :
-// Afficher tous les détails (Identifiant, nom, prénom, Parti politique, Âge,
-//  Nombre de votes (calculé à partir de la liste des CIN des électeurs)) selon plusieurs vues :
-// Trier les candidats par nombre de votes (ordre décroissant pour voir les gagnants).
-// Filtrer et afficher uniquement les candidats d'un parti politique spécifique.
-
 function displayCandidate(candidates){
        let choice ;
 
@@ -148,6 +142,50 @@ function displayCandidate(candidates){
 
 }
 
+function votingCandidate(candidates){
+
+      console.log("\n============== Welcome to voting ==============\n");
+      let voter = p("Enter your CIN : ");
+      console.log("Please wait to cheack...!");
+      console.clear();
+      let virfy = 0
+      for (let  candidate of candidates) {
+          for (let  vot of candidate.voters) {
+              if(vot == voter){
+               virfy = 1 ;
+               
+              } 
+          }
+          if(virfy){
+            break;
+          }
+      }
+  
+     
+      if(!virfy){
+        let findCin = 0;
+        console.log("\n its ok ...");
+        console.clear();
+        let cinCandidate = p("Now give me CIN Candidate that you want to vote :")
+        for(let i =0 ;i< candidates.length ;i++){
+             if(candidates[i].cin === cinCandidate ){
+                candidates[i].voters.push(voter);
+                findCin = 1;
+                break;
+             }
+      
+        }
+        if(!findCin){
+        console.log("I don't have any CIN in the candidate .");
+        }
+       
+      }
+      else{
+        console.log("You can't voter two times already voting");
+      }
+
+}
+
 
 do{
 
@@ -164,7 +202,8 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break ;
-    case 3 : p("Click to move...!");
+    case 3 : votingCandidate(candidates);
+             p("Click to move...!");
              console.clear();
              break ;
     case 4 : p("Click to move...!");
