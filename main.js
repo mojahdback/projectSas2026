@@ -6,7 +6,6 @@ let candidate = {}
 
 
 
-
 function menu(){
 
   console.log("\n ==========  System Elections and Electoral Lists  ==========\n")  
@@ -49,6 +48,107 @@ function addCandidate(){
 
 }
 
+// 3. Afficher la liste des candidats :
+// Afficher tous les détails (Identifiant, nom, prénom, Parti politique, Âge,
+//  Nombre de votes (calculé à partir de la liste des CIN des électeurs)) selon plusieurs vues :
+// Trier les candidats par nombre de votes (ordre décroissant pour voir les gagnants).
+// Filtrer et afficher uniquement les candidats d'un parti politique spécifique.
+
+function displayCandidate(candidates){
+       let choice ;
+
+       do{
+         console.log("\n************** Choose how to display the Candidates ****************\n");
+         console.log("1 : Sort the candidates by number the voter.");
+         console.log("2 : Display only the candidates Specific policy.");
+         console.log("3 : Display all candidates .");
+         console.log("0 : Exit ") ;
+
+
+       choice = Number(p("Choose a number 1 / 2 / 3 OR zero to Exit . "));
+
+       if(choice == 1){
+           for(let i =0 ; i< candidates.length ; i++){
+            for(let j =0 ; j < candidates.length -1 ; j++){
+                if(candidates[j].voters.length < candidates[j +1].voters.length){
+                      let temp = candidates[j]
+                      candidates[j] = candidates[j+1]
+                      candidates[j+1] = temp
+                }
+            }
+          }
+          for(let i =0 ; i< candidates.length ; i++){
+            console.log(`\n =========== Candidate ${i+1} ===========\n`);
+            console.log(`\t CIN => ${candidates[i].cin}`);
+            console.log(`\t NAME => ${candidates[i].name}`);
+            console.log(`\t LAST NAME => ${candidates[i].lastName}`);
+            console.log(`\t AGE => ${candidates[i].age}`);
+            console.log(`\t PoliticalParty => ${candidates[i].politicalParty}`);
+            console.log(`\t NUMBER VOTERS => ${candidates[i].voters.length}`);
+            console.log(`______________________________________________\n`);
+
+          }
+         
+       }
+       else if(choice == 2){
+             let choice = p("Enter name of policy that you want to display : ");
+             let virfy = 0
+              for(let i =0 ; i< candidates.length ; i++){
+  
+                 if(candidates[i].politicalParty.toUpperCase() == choice.toUpperCase() ){
+
+                   console.log(`\n =========== Candidate ${i+1} ===========\n`);
+                   console.log(`\t CIN => ${candidates[i].cin}`);
+                   console.log(`\t NAME => ${candidates[i].name}`);
+                   console.log(`\t LAST NAME => ${candidates[i].lastName}`);
+                   console.log(`\t AGE => ${candidates[i].age}`);
+                   console.log(`\t PoliticalParty => ${candidates[i].politicalParty}`);
+                   console.log(`\t NUMBER VOTERS => ${candidates[i].voters.length}`);
+                   console.log(`______________________________________________\n`);
+                   virfy = 1;
+                     
+                }
+            }
+            if(!virfy){
+              console.log("\n----------------------------------");
+              console.log("======> THIS POLICY NOT FIND...!");
+              console.log("------------------------------------\n");
+
+          }
+
+
+       }
+
+       else if(choice == 3){
+         for(let i =0 ; i< candidates.length ; i++){
+
+                   console.log(`\n =========== Candidate ${i+1} ===========\n`);
+                   console.log(`\t CIN => ${candidates[i].cin}`);
+                   console.log(`\t NAME => ${candidates[i].name}`);
+                   console.log(`\t LAST NAME => ${candidates[i].lastName}`);
+                   console.log(`\t AGE => ${candidates[i].age}`);
+                   console.log(`\t PoliticalParty => ${candidates[i].politicalParty}`);
+                   console.log(`\t NUMBER VOTERS => ${candidates[i].voters.length}`);
+                   console.log(`______________________________________________\n`);
+
+                                
+        }
+      } 
+      else if(choice == 0){
+            console.log("\tExit...!\n");
+            break;
+
+      }
+       else{
+            console.log("\n ==> Please choose 1 OR 2 OR 3 . \n")
+       }
+
+       }while(choice !== 0);
+      
+
+}
+
+
 do{
 
 menu();
@@ -60,7 +160,7 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break;
-    case 2 : 
+    case 2 : displayCandidate(candidates);
              p("Click to move...!");
              console.clear();
              break ;
