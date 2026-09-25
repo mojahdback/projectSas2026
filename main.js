@@ -186,6 +186,37 @@ function votingCandidate(candidates){
 
 }
 
+function search(candidates) {
+
+    let cin = p("Enter your CIN : ");
+    let verfi = 0;
+
+    for(let i =0 ; i< candidates.length ;i++){
+               
+              if(candidates[i].cin === cin){
+
+                   console.log("\n ============== Found it ==============");
+                   console.log(`\n ------------- Candidate ${i+1}------------\n`);
+                   console.log(`\t CIN => ${candidates[i].cin}`);
+                   console.log(`\t NAME => ${candidates[i].name}`);
+                   console.log(`\t LAST NAME => ${candidates[i].lastName}`);
+                   console.log(`\t AGE => ${candidates[i].age}`);
+                   console.log(`\t PoliticalParty => ${candidates[i].politicalParty}`);
+                   console.log(`\t NUMBER VOTERS => ${candidates[i].voters.length}`);
+                   console.log(`______________________________________________\n`);
+                  verfi = 1;
+              }
+
+           
+    }
+
+    if (verfi == 0) {
+        console.log("\n===========================\n");
+        console.log(`\tThe libry dosn't have any book has this ID => ${cin} `);
+        console.log("===========================\n");
+    }
+}
+
 
 do{
 
@@ -206,7 +237,8 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break ;
-    case 4 : p("Click to move...!");
+    case 4 : search(candidates);
+             p("Click to move...!");
              console.clear();
              break;
     case 5 : p("Click to move...!");
