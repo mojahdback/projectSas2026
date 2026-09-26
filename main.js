@@ -12,9 +12,9 @@ function menu(){
   console.log("\t1. Add the candidates ")
   console.log("\t2. Display the candidates")
   console.log("\t3. To vote ")
-  console.log("\t6. Search a candidate")
-  console.log("\t4. Update a candidate")
-  console.log("\t5. Delete a candidate")
+  console.log("\t4. Search a candidate")
+  console.log("\t5. Update a candidate")
+  console.log("\t6. Delete a candidate")
   console.log("\t7. Statistics ")
   console.log("\t0. Exit\n")
   console.log("============================================")
@@ -217,6 +217,28 @@ function search(candidates) {
     }
 }
 
+function modifyCandidate(candidates){
+    let cin = p("Please Enter CIN the candidate : ");
+    let here = 0
+    for(let i =0 ; i< candidates.length ; i++){
+        if(candidates[i].cin  === cin){
+           here = 1 ;
+           candidates[i].politicalParty = p("Enter a new partiPolitique : ");
+           candidates[i].age = Number(p("Enter new your age : "));
+
+        }
+        if(here){
+            break;
+        }
+    }
+
+    if(!here){
+        console.log("There is no find any CIN like that.");
+    }
+
+
+}
+
 
 do{
 
@@ -241,7 +263,8 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break;
-    case 5 : p("Click to move...!");
+    case 5 : modifyCandidate(candidates);
+             p("Click to move...!");
              console.clear();
              break;
     case 6 : p("Click to move...!");
