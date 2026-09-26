@@ -127,13 +127,19 @@ function displayCandidate(candidates){
 
                                 
         }
+        if(candidates.length == 0){
+          console.log("\n========> this array is Empty...!");
+          console.log("-------------------------------------\n");
+
+      }
       } 
       else if(choice == 0){
             console.log("\tExit...!\n");
             break;
 
       }
-       else{
+     
+      else{
             console.log("\n ==> Please choose 1 OR 2 OR 3 . \n")
        }
 
@@ -239,6 +245,24 @@ function modifyCandidate(candidates){
 
 }
 
+function deleteCandidate(candidates){
+    let cin = p("Please Enter CIN the candidate : ");
+    let here = 0
+    for(let i =0 ; i< candidates.length ; i++){
+        if(candidates[i].cin  === cin){
+           here = 1 ;
+           candidates.splice(i,1);
+           break;
+        }
+      
+    }
+
+    if(!here){
+        console.log("There is no find any CIN like that.");
+    }
+
+}
+
 
 do{
 
@@ -267,7 +291,8 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break;
-    case 6 : p("Click to move...!");
+    case 6 : deleteCandidate(candidates);
+             p("Click to move...!");
              console.clear();
              break ;
     case 7 : p("Click to move...!");
