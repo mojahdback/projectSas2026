@@ -1,8 +1,6 @@
 const p = require("prompt-sync")();
 let choice ;
 let candidates = [];
-let candidate = {}
-
 
 
 
@@ -25,16 +23,27 @@ function addCandidate(){
 
     let count = Number(p("How much candidate do you want to add : "));
     for(let i = 0 ; i < count ;i++){
+          let virifi = 0
           console.log(`\n------- Enter Candidate : ${i+1} --------\n`);
-          let id = Number(p("Enter ID : "));
           let cin = p("Enter CIN : ");
+          for(let j = 0 ; j< candidates.length ;j++){
+            if(cin.toUpperCase() === candidates[j].cin.toUpperCase()){
+                virifi = 1;
+                break;
+               
+            }
+           
+            }
+          
+
+          if(!virifi){
+
           let name = p("Enter Name : ");
           let lastName = p("Enter LastName : ");
           let age = Number(p("Enter Age : "));
           let politicalParty  = p("Enter political party : ");
           let voters = [];
-          candidates.push( candidate = {
-             id : id ,
+          candidates.push({
              cin : cin ,
              name : name ,
              lastName : lastName,
@@ -44,9 +53,15 @@ function addCandidate(){
 
           })
           console.log("\n --------------------------------\n")
-    }
+          }
+          else{
+            console.log("\n --- already added...!")
+          }
 
+    }
 }
+         
+
 
 function displayCandidate(candidates){
        let choice ;
@@ -62,8 +77,8 @@ function displayCandidate(candidates){
        choice = Number(p("Choose a number 1 / 2 / 3 OR zero to Exit . "));
 
        if(choice == 1){
-           for(let i =0 ; i< candidates.length ; i++){
-            for(let j =0 ; j < candidates.length -1 ; j++){
+           for(let i = 0 ; i< candidates.length - 1; i++){
+            for(let j = 0 ; j < candidates.length - 1 - i ; j++){
                 if(candidates[j].voters.length < candidates[j +1].voters.length){
                       let temp = candidates[j]
                       candidates[j] = candidates[j+1]
@@ -145,7 +160,6 @@ function displayCandidate(candidates){
 
        }while(choice !== 0);
       
-
 }
 
 function votingCandidate(candidates){
@@ -194,12 +208,12 @@ function votingCandidate(candidates){
 
 function search(candidates) {
 
-    let cin = p("Enter your CIN : ");
+    let name = p("Enter your name of Candidate : ");
     let verfi = 0;
 
     for(let i =0 ; i< candidates.length ;i++){
                
-              if(candidates[i].cin === cin){
+              if(candidates[i].name === name){
 
                    console.log("\n ============== Found it ==============");
                    console.log(`\n ------------- Candidate ${i+1}------------\n`);
@@ -218,7 +232,7 @@ function search(candidates) {
 
     if (verfi == 0) {
         console.log("\n===========================\n");
-        console.log(`\tThe libry dosn't have any book has this ID => ${cin} `);
+        console.log(`\tThe libry dosn't have any book has this ID => ${name} `);
         console.log("===========================\n");
     }
 }
@@ -263,6 +277,62 @@ function deleteCandidate(candidates){
 
 }
 
+function statistics(candidates) {
+
+    let totalCandidates = candidates.length;
+    let totalVoters = 0;
+    
+    for (let i = 0; i < candidates.length; i++) {
+        totalVoters = totalVoters + candidates[i].voters.length;
+    }
+
+    for (let i = 0; i < candidates.length; i++) {
+
+        for (let j = 0; j < candidates.length - 1; j++) {
+
+            if (candidates[j].voters.length < candidates[j + 1].voters.length) {
+
+                let temp = candidates[j];
+
+                candidates[j] = candidates[j + 1];
+
+                candidates[j + 1] = temp;
+            }
+        }
+    }
+    console.log("\n -------------- Statistics --------------------\n")
+    console.log("\tTotal Candidates => " + totalCandidates);
+    console.log("\n\tTotal Voters => " + totalVoters);
+    console.log("\tTop 3 Candidates :\n");
+    console.log("\tCandidate 1 =>  Name : " + candidates[0].name);
+    console.log("\t\t\tPolitical Party : " + candidates[0].politicalParty);
+    console.log("\t\t\tVoters : " + candidates[0].voters.length +"\n");
+    console.log("\tCandidate 2 =>  Name : " + candidates[1].name);
+    console.log("\t\t\tPolitical Party : " + candidates[1].politicalParty);
+    console.log("\t\t\tVoters : " + candidates[1].voters.length +"\n");
+    console.log("\tCandidate 3 =>  Name : " + candidates[2].name);
+    console.log("\t\t\tPolitical Party : " + candidates[2].politicalParty);
+    console.log("\t\t\tVoters : " + candidates[2].voters.length +"\n");
+    console.log("-------------- Total Policy -----------------");
+
+    let n = [];
+    for (let i = 0; i < candidates.length; i++) {
+        if (!n[i]) {
+            n[i] = 1;
+            let count = 1;
+            for (let j = i + 1; j < candidates.length; j++) {
+                if (candidates[i].politicalParty === candidates[j].politicalParty) {
+                    count++;
+                    n[j] = 1;
+                }
+            }
+            console.log("\t\t"+ candidates[i].politicalParty + " : " + count);
+        }
+    }
+}
+
+
+
 
 do{
 
@@ -295,7 +365,8 @@ choice = Number(p("Choose a number : "));
              p("Click to move...!");
              console.clear();
              break ;
-    case 7 : p("Click to move...!");
+    case 7 : statistics(candidates);
+             p("\nClick to move...!");
              console.clear();
              break ;
     case 0 : console.log("\n The Program Exit...! \n");
