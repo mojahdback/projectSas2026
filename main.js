@@ -1,6 +1,43 @@
 const p = require("prompt-sync")();
 let choice ;
-let candidates = [];
+let candidates = [
+    {
+    cin: "AB123",
+    name: "Youssef",
+    lastName: "Amrani",
+    age: 35,
+    politicalParty: "PAM",
+    voters: ["V001", "V002", "V003"]
+},{
+    cin: "CD456",
+    name: "Ahmed",
+    lastName: "Alaoui",
+    age: 42,
+    politicalParty: "PI",
+    voters: ["V004", "V005"]
+},{
+    cin: "EF789",
+    name: "Omar",
+    lastName: "Hassani",
+    age: 39,
+    politicalParty: "PAM",
+    voters: ["V006", "V007", "V008", "V009"]
+},{
+    cin: "GH1011",
+    name: "Hamza",
+    lastName: "Bennani",
+    age: 31,
+    politicalParty: "RNI",
+    voters: ["V010"]
+},{
+    cin: "IJ1213",
+    name: "Mehdi",
+    lastName: "Fassi",
+    age: 45,
+    politicalParty: "PI",
+    voters: ["V011", "V012", "V013"]
+}
+];
 
 
 
@@ -171,7 +208,7 @@ function votingCandidate(candidates){
       let virfy = 0
       for (let  candidate of candidates) {
           for (let  vot of candidate.voters) {
-              if(vot == voter){
+              if(vot.toUpperCase() == voter.toUpperCase()){
                virfy = 1 ;
                
               } 
@@ -188,7 +225,7 @@ function votingCandidate(candidates){
         console.clear();
         let cinCandidate = p("Now give me CIN Candidate that you want to vote :")
         for(let i =0 ;i< candidates.length ;i++){
-             if(candidates[i].cin === cinCandidate ){
+             if(candidates[i].cin.toUpperCase() === cinCandidate.toUpperCase() ){
                 candidates[i].voters.push(voter);
                 findCin = 1;
                 break;
@@ -213,7 +250,7 @@ function search(candidates) {
 
     for(let i =0 ; i< candidates.length ;i++){
                
-              if(candidates[i].name === name){
+              if(candidates[i].name.toUpperCase() === name.toUpperCase()){
 
                    console.log("\n ============== Found it ==============");
                    console.log(`\n ------------- Candidate ${i+1}------------\n`);
@@ -241,7 +278,7 @@ function modifyCandidate(candidates){
     let cin = p("Please Enter CIN the candidate : ");
     let here = 0
     for(let i =0 ; i< candidates.length ; i++){
-        if(candidates[i].cin  === cin){
+        if(candidates[i].cin.toUpperCase()  === cin.toUpperCase()){
            here = 1 ;
            candidates[i].politicalParty = p("Enter a new partiPolitique : ");
            candidates[i].age = Number(p("Enter new your age : "));
@@ -263,7 +300,7 @@ function deleteCandidate(candidates){
     let cin = p("Please Enter CIN the candidate : ");
     let here = 0
     for(let i =0 ; i< candidates.length ; i++){
-        if(candidates[i].cin  === cin){
+        if(candidates[i].cin.toUpperCase()  === cin.toUpperCase()){
            here = 1 ;
            candidates.splice(i,1);
            break;
@@ -278,57 +315,68 @@ function deleteCandidate(candidates){
 }
 
 function statistics(candidates) {
+     
+    console.log("\n ----------- Statistics ---------------- \n")
+    console.log("\n\t1 : Total the candidates . ");
+    console.log("\t2 : Total of voters in all candidates .");
+    console.log("\t3 : TOP 3  Candidates . ");
+    console.log("\t4 : Total political Party . \n");
 
-    let totalCandidates = candidates.length;
-    let totalVoters = 0;
-    
-    for (let i = 0; i < candidates.length; i++) {
-        totalVoters = totalVoters + candidates[i].voters.length;
+    let choice = Number(p("Choose a number bettween 1 / 4 : "));
+
+    switch(choice){
+        case 1 : let totalCandidates = candidates.length;
+                  console.log("\n --------- TOTAL CANDIDATES ---------------")
+                  console.log("\tTotal Candidates => " + totalCandidates);
+                   break;
+        case 2 :  let totalVoters = 0;
+                    console.log("\n----------- TOTAL VOTERS -----------------");
+                    for (let i = 0; i < candidates.length; i++) {
+                        totalVoters = totalVoters + candidates[i].voters.length;
+                    }
+                    console.log("\n\tTotal Voters => " + totalVoters);
+                    break;
+        case 3 :    for (let i = 0; i < candidates.length; i++) {
+                      for (let j = 0; j < candidates.length - 1; j++) {
+                               if (candidates[j].voters.length < candidates[j + 1].voters.length) {
+                                      let temp = candidates[j];
+                                       candidates[j] = candidates[j + 1];
+                                          candidates[j + 1] = temp;
+                                }
+                        }       
+                    }
+                    
+                    console.log("\n\tTop 3 Candidates :\n");
+                    console.log("\tCandidate 1 =>  Name : " + candidates[0].name);
+                    console.log("\t\t\tPolitical Party : " + candidates[0].politicalParty);
+                    console.log("\t\t\tVoters : " + candidates[0].voters.length +"\n");
+                    console.log("\tCandidate 2 =>  Name : " + candidates[1].name);
+                    console.log("\t\t\tPolitical Party : " + candidates[1].politicalParty);
+                    console.log("\t\t\tVoters : " + candidates[1].voters.length +"\n");
+                    console.log("\tCandidate 3 =>  Name : " + candidates[2].name);
+                    console.log("\t\t\tPolitical Party : " + candidates[2].politicalParty);
+                    console.log("\t\t\tVoters : " + candidates[2].voters.length +"\n");
+                    break;
+        case 4 :   console.log("\n-------------- Total Policy -----------------");
+                   let n = [];
+                    for (let i = 0; i < candidates.length; i++) {
+                            if (!n[i]) {
+                            n[i] = 1;
+                            let count = 1;
+                            for (let j = i + 1; j < candidates.length; j++) {
+                                    if (candidates[i].politicalParty === candidates[j].politicalParty) {
+                                    count++;
+                                    n[j] = 1;
+                                    }
+                            }
+                            console.log("\t\t"+ candidates[i].politicalParty + " : " + count);
+                            }
+                    }
+                    break;
+        default:  console.log("Invalide choice !");
+                  break;
     }
-
-    for (let i = 0; i < candidates.length; i++) {
-
-        for (let j = 0; j < candidates.length - 1; j++) {
-
-            if (candidates[j].voters.length < candidates[j + 1].voters.length) {
-
-                let temp = candidates[j];
-
-                candidates[j] = candidates[j + 1];
-
-                candidates[j + 1] = temp;
-            }
-        }
-    }
-    console.log("\n -------------- Statistics --------------------\n")
-    console.log("\tTotal Candidates => " + totalCandidates);
-    console.log("\n\tTotal Voters => " + totalVoters);
-    console.log("\tTop 3 Candidates :\n");
-    console.log("\tCandidate 1 =>  Name : " + candidates[0].name);
-    console.log("\t\t\tPolitical Party : " + candidates[0].politicalParty);
-    console.log("\t\t\tVoters : " + candidates[0].voters.length +"\n");
-    console.log("\tCandidate 2 =>  Name : " + candidates[1].name);
-    console.log("\t\t\tPolitical Party : " + candidates[1].politicalParty);
-    console.log("\t\t\tVoters : " + candidates[1].voters.length +"\n");
-    console.log("\tCandidate 3 =>  Name : " + candidates[2].name);
-    console.log("\t\t\tPolitical Party : " + candidates[2].politicalParty);
-    console.log("\t\t\tVoters : " + candidates[2].voters.length +"\n");
-    console.log("-------------- Total Policy -----------------");
-
-    let n = [];
-    for (let i = 0; i < candidates.length; i++) {
-        if (!n[i]) {
-            n[i] = 1;
-            let count = 1;
-            for (let j = i + 1; j < candidates.length; j++) {
-                if (candidates[i].politicalParty === candidates[j].politicalParty) {
-                    count++;
-                    n[j] = 1;
-                }
-            }
-            console.log("\t\t"+ candidates[i].politicalParty + " : " + count);
-        }
-    }
+  
 }
 
 
